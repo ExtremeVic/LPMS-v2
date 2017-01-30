@@ -43,6 +43,9 @@ float x;
 float CAL = 0.9; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Change this to change calibration!!! <<<<<<<<<<<<<<<<<<
 char s[32];
 long count = 0;
+char Version[8] = "v1.27.17";
+unsigned long starttime;
+unsigned long endtime;
 
 
 // ================================================================
@@ -65,7 +68,8 @@ void setup() {
   Wire.begin();
   Serial.begin(4800);
   // initialize device
-  Serial.println(F("Initializing... v10.10.16"));
+  Serial.print(F("Initializing... "));
+  Serial.println(Version);
   Serial.print("Current Cal offset = ");
   Serial.println(CAL);
   mpu.initialize();
@@ -108,6 +112,21 @@ void setup() {
 
   // configure LED for output
   pinMode(LED_PIN, OUTPUT);
+
+  //Write the version for 5 seconds
+  starttime = millis();
+  endtime = starttime;
+  while((endtime - starttime) <=3000) // do this loop for up to 1000mS
+  {
+    Serial.write('<');
+    Serial.write(Version);
+    Serial.write(',');
+    Serial.write(dtostrf(CAL,4,1,s));
+    Serial.write('>');
+    Serial.write('\n');
+    endtime = millis();
+  }
+    
 
 }
 

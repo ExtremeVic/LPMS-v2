@@ -13,6 +13,7 @@ char messageFromPC[numChars] = {0};
 char messageFromPC2[numChars] = {0};
 boolean newData = false;    // New Data FLag
 int counter = 0;  // Counter to turn off laser circuit
+char Version[8] = "v1.27.17";
 
 
 void setup()   {
@@ -20,6 +21,7 @@ void setup()   {
   pinMode(8,OUTPUT);
   digitalWrite(8,LOW);
   digitalWrite(13,LOW);
+  Serial.write(Version);
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // initialize with the I2C addr 0x3D (for the 128x64)
   display.clearDisplay();
   display.setTextColor(WHITE);
@@ -32,7 +34,8 @@ void setup()   {
   display.println(F("to fully calibrate."));
   display.println("");
   display.println("");
-  display.println(F("   F/W v10.4.16"));
+  display.print(F("   F/W "));
+  display.print(Version);
   display.display();
   delay(2500); 
 }
@@ -118,7 +121,8 @@ void recvWithStartEndMarkers() {
                 display.setTextSize(1);
                 display.println("");
                 display.println("");
-                display.println(F("   F/W v10.4.16"));
+                display.print(F("   F/W "));
+                display.print(Version);
                 display.display();    
               }
 
