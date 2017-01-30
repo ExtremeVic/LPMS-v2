@@ -21,7 +21,8 @@ void setup()   {
   pinMode(8, OUTPUT);
   digitalWrite(8, LOW);
   digitalWrite(13, LOW);
-  Serial.write(Version);
+  //Serial.print("Downbox Version ");
+  //Serial.println(Version);
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // initialize with the I2C addr 0x3D (for the 128x64)
   display.clearDisplay();
   display.setTextColor(WHITE);
@@ -49,8 +50,11 @@ void loop() {
     parseData();
     showParsedData();
     newData = false;
-
-  }
+    counter++;
+    //Serial.println("");
+    //Serial.print("Counter: "); 
+    //Serial.print(counter);
+}
 
   /*else if (newData == false) {
             display.clearDisplay();
@@ -71,9 +75,10 @@ void loop() {
     digitalWrite(8, HIGH);
     display.println("");
     display.print("AUTO LASER OFF");
+    //Serial.print(" AUTO LASER OFF"); 
 
   }
-  counter++;
+  
 }
 
 //============
@@ -132,7 +137,7 @@ void recvWithStartEndMarkers() {
 //============
 
 void parseData() {      // split the data into its parts
-  //Serial.println("##Parsedata ");
+  ////Serial.println("##Parsedata ");
   
   char * strtokIndx; // this is used by strtok() as an index
 
@@ -149,13 +154,14 @@ void parseData() {      // split the data into its parts
 //============
 
 void showParsedData() {
-  //Serial.println("##showParsedata ");
+  ////Serial.println("##showParsedata ");
 
   //If first char == v then its receiving version number)
     if (messageFromPC[0] == 'v') {
-      Serial.print("Upbox Version: "); 
-      Serial.println(messageFromPC); 
-      Serial.println(messageFromPC2);
+      //Serial.print(" |Upbox Version: "); 
+      //Serial.print(messageFromPC); 
+      //Serial.print(" Upbox Offset: "); 
+      //Serial.print(messageFromPC2);
       display.clearDisplay();
       display.setTextColor(WHITE);
       display.setTextSize(1);
@@ -171,13 +177,11 @@ void showParsedData() {
 
 
   else if (strcmp(messageFromPC, messageFromPC2) == 0) {
-    //Serial Readout
-    //Serial.print("Equal ");
             
         if(strcmp(messageFromPC,messageFromPC2) == 0) {
-          Serial.print("New Data ");
-          Serial.print("Angle is");
-          Serial.println(messageFromPC);
+          //Serial.print("| Verified Data - ");
+          //Serial.print(" Angle is");
+          //Serial.print(messageFromPC);
 
               //Display Readout
               display.clearDisplay();
@@ -203,17 +207,16 @@ void showParsedData() {
           }
           
         else {
-          //Serial.println("Same Data dont print ");
+          //Serial.print(" Same Data dont print ");
           }
     
   }
 
   else {
-    //Serial.print("UnEqual ");
+    //Serial.print("| Data is corrupt, Dont Display: ");
     //Serial.print(messageFromPC);
     //Serial.print(" / ");
     //Serial.print(messageFromPC2);
-    //Serial.println();
 
   }
 
